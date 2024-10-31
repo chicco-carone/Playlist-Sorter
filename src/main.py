@@ -3,7 +3,7 @@ import sys
 import logging
 from dotenv import load_dotenv
 from PlexConnection import PlexConnection
-
+from db_connection import DBConnection
 
 def setup_logging():
     try:
@@ -23,17 +23,20 @@ def setup_logging():
         print(f"An error occurred while creating the logger: {e}")
         sys.exit(1)
 
+def save_playlist_to_db(db_conn, playlist_name, playlist_data):
+    db_conn.add_playlist_data(playlist_name, playlist_data)
 
 setup_logging()
 load_dotenv()
-
 
 plex = PlexConnection(username=os.getenv("PLEX_USERNAME", ""), password=os.getenv(
     "PLEX_PASSWORD", ""), server_name=os.getenv("PLEX_SERVER_NAME", ""))
 
 playlist_data = plex.get_playlist_data("Musica Chicco")
 
-sorted_playlist = plex.sort_playlist(playlist_data)
+with DBConnection() as db_conn:
+    save_playlist_to_db(db_conn, "Musica Chicco", playlist_data)
+    sorted_playlist = db_conn.sort_playlist("Musica Chicco", "track_name")
 
 logging.debug(f"Sorted playlist: {sorted_playlist}")
 

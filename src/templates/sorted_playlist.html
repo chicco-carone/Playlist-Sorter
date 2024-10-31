@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorted Playlist</title>
+</head>
+<body>
+    <h1>Sorted Playlist</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Track Name</th>
+                <th>Album Name</th>
+                <th>Artist Name</th>
+                <th>Track ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for track in sorted_playlist %}
+            <tr>
+                <td>{{ track.track_name }}</td>
+                <td>{{ track.album_name }}</td>
+                <td>{{ track.artist_name }}</td>
+                <td>{{ track.track_id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2>Diffs Between Playlists</h2>
+    <div id="playlist_diffs">
+        <!-- Diffs between playlists will be displayed here -->
+    </div>
+</body>
+</html>
